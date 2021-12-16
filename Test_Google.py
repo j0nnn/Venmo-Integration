@@ -1,12 +1,5 @@
 from __future__ import print_function
-
-import os.path
-
-from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
-from googleapiclient.errors import HttpError
 from google.oauth2 import service_account
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
@@ -18,16 +11,17 @@ creds = service_account.Credentials.from_service_account_file(
 
 
 # The ID and range of a sample spreadsheet.
-SAMPLE_SPREADSHEET_ID = '1YBKExAcWBG0u7gJO8G4eX_soBCJ9Yd5M6_2TKhKHVyQ'
+SAMPLE_SPREADSHEET_ID = '1GS1vMOKHn0Su2p76OWi6EYxCKCs7DKTQG-3ij3tEU58'
+RANGE = "Fundraisers!A4:D200"
 
 service = build('sheets', 'v4', credentials=creds)
 
 # Call the Sheets API
 sheet = service.spreadsheets()
-result = sheet.values().get(spreadsheetId=SAMPLE_SPREADSHEET_ID, range="J2:K8").execute()
+result = sheet.values().get(spreadsheetId=SAMPLE_SPREADSHEET_ID, range=RANGE).execute()
 values = result.get('values', [])
 
-temp = [["a", 1], ["b", 2], ["c", 3], ["d", 4], ["e", 5], ["f", 6], ["g", 7]]
+temp = [["a", 1, 2, 3], ["b", 4, 5, 6]]
 
-request = sheet.values().update(spreadsheetId=SAMPLE_SPREADSHEET_ID, range="J2:K8", valueInputOption="RAW", body={"values":temp})
+request = sheet.values().update(spreadsheetId=SAMPLE_SPREADSHEET_ID, range=RANGE, valueInputOption="RAW", body={"values":temp})
 request.execute()
