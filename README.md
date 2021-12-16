@@ -1,4 +1,4 @@
-# Venmo-Integration
+# Venmo-Spreadsheet Integration
 In this project we created a program that utilizes the RESTful API of Venmo and Google Sheets. This would automate the transfer of budgetary information such as money recieved from fundraisers, money spent, etc.. 
 
 We are considering making this a web-app so that it would be accessible to everyone, but for now, all private authentication processes run within the code.
