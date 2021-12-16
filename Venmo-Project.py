@@ -1,23 +1,22 @@
 from venmo_api import Client
 from dotenv import load_dotenv
 import os
-import datetime
+import datetime as dt
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
 
+# Load credentials from environment variables
 load_dotenv()
 user = os.getenv("user")
 pwd = os.getenv("pwd")
-access_token = os.getenv('access_token')
 tasa_id = os.getenv('tasa_id')
-jon_id = os.getenv('jon_id')
-
+access_token = os.getenv('access_token')
 #access_token = Client.get_access_token(username=user, password=pwd)
 
-# Initialize api client using an access-token
+# Initialize api client using access-token
 client = Client(access_token=access_token)
 
-# Helper function that compares two Date objects
+# Helper function that compares two Date Objects
 def compareDate(date1, date2):
     if (date1 < date2):
         return -1
@@ -26,36 +25,30 @@ def compareDate(date1, date2):
     else:
         return 0
 
-# Getting Date Object from UTC
-def getDatefromUTC(utc):
-    return datetime.date.fromtimestamp(utc)
+# Helper function that converts UTC string to Date Object
+def UTCtoDate(utc):
+    return dt.date.fromtimestamp(utc)
 
 
 ### VENMO DATA SEARCH ###
 
-
+# Returns set of transactions within date_start and date_end
 output = []
-trans = client.user.get_user_transactions(user_id = tasa_id) #leo_id)
-date_start = datetime.date(2021, 8, 1)
-date_end = datetime.date(2021, 9, 1)
-print("Transactions between", date_start, "and", date_end)
-while trans.get_next_page() != None and compareDate(getDatefromUTC(trans[0].date_created), date_start) >= 0:
-    for t in trans:
-        t_date = getDatefromUTC(t.date_created)
-        if t.target.display_name == "TASA Berkeley" and compareDate(t_date, date_start) >= 0 and compareDate(t_date, date_end) <= 0:
-            space0 = ""
-            space1 = ""
-            space2 = ""
-            for i in range(14 - len(t.actor.display_name[:14])):
-                space0 += " "
-            for i in range(34 - len(t.actor.display_name[:14]) - len(t.target.display_name) - len(" -> ") - len(space0)):
-                space1 += " "
-            for i in range(5 - len(str(t.amount))):
-                space2 += " "
-            print(t.actor.display_name[:14], space0, " -> ", t.target.display_name, space1, "date:", t_date.strftime("%m/%d/%Y"), "$:", t.amount, space2, "note:", t.note[0:30])
-    trans = trans.get_next_page()
-    #print("got new page")
+date_start = dt.date(2021, 8, 1)
+date_end = dt.date(2021, 9, 1)
+transactions = client.user.get_user_transactions(user_id = tasa_id)
+
+while (transactions.get_next_page() != None and
+        compareDate(UTCtoDate(transactions[0].date_created), date_start) >= 0):
+    for t in transactions:
+        t_date = UTCtoDate(t.date_created)
+        if (t.target.display_name == "TASA Berkeley" and
+            compareDate(t_date, date_start) >= 0 and compareDate(t_date, date_end) <= 0):
+            output.append([t_date.strftime("%m/%d/%Y"), t.note, t.actor.display_name, t.amount, t.actor.username])
+    transactions = transactions.get_next_page() # maximum 50 results per page
 output.reverse()
+
+
 
 
 ### GOOGLE SHEETS WRITE ###
