@@ -1,6 +1,4 @@
 from venmo_api import Client
-from pprint import pprint
-import pandas as pd
 from dotenv import load_dotenv
 import os
 import datetime
@@ -64,14 +62,3 @@ while compareDate(getDatefromUTC(trans[0].date_created), date_start) > 0:
         if compareDate(t_date, date_start) == 1 and t.target.display_name == "TASA Berkeley":
             print(t.actor.display_name, "date:", t_date, "note:", t.note)
     trans = trans.get_next_page()
-
-#for t in trans:
-#    t_date = datetime.date.fromtimestamp(t.date_created)
-#    if compareDate(t_date, date_start) == 1 and t.target.display_name == "TASA Berkeley":
-#        print(t.actor.display_name, "date:", t_date, "note:", t.note)
-#    #pprint(t.to_json())
-#print(len(trans))
-
-#friend = client.user.get_user_friends_list(user_id = jon_id)
-#for friend in friends:
-#    print(friend.username)
