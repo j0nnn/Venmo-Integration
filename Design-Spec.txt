@@ -6,3 +6,9 @@ Functionalities:
  - Filter through entered keyboards
  - Sum of transactions queried
  - Graphs of the total queried data
+
+ Design:
+ - TASA Bear Logo in the top-middle
+ - Start and End Date text box with calendar drop-down option
+ - Optional textbox to input filter keyword
+ - Graphs will show up in the bottom after query
