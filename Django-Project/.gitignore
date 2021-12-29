@@ -1,0 +1,4 @@
+# ignore virtualenv files
+/bin
+/lib
+*.cfg

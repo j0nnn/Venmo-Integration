@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block 1 %}
+<h1> Create Query </h1>
+<form method='POST'> {% csrf_token %}
+  {{ form.as_p }}
+  <input type='submit' value='Save' />
+</form>
+{% endblock %}
+
+{% block 2 %}
+  <p>
+  {% if object %}
+    Last Query: {{ object.dateStart }} to {{ object.dateEnd }} <br>
+    {% if object.keyword %}
+      Keyword: {{ object.keyword }} <br><br>
+    {% endif %}
+    Graphs would ideally go here, immediate retrieval of query
+  {% else %}
+    No existing queries
+  {% endif %}
+  </p>
+{% endblock %}
