@@ -1,0 +1,8 @@
+Permanently Logged in to TASA Venmo Account
+ - No need for Venmo authorization in the front end
+
+Functionalities:
+ - Set Start and End Date for searching transactions
+ - Filter through entered keyboards
+ - Sum of transactions queried
+ - Graphs of the total queried data

@@ -34,8 +34,8 @@ def UTCtoDate(utc):
 
 # Returns set of transactions within date_start and date_end
 output = []
-date_start = dt.date(2021, 8, 1)
-date_end = dt.date(2021, 9, 1)
+date_start = dt.date(2021, 3, 1)
+date_end = dt.date(2021, 5, 1)
 transactions = client.user.get_user_transactions(user_id = tasa_id)
 
 while (transactions.get_next_page() != None and
@@ -47,7 +47,6 @@ while (transactions.get_next_page() != None and
             output.append([t_date.strftime("%m/%d/%Y"), t.note, t.actor.display_name, t.amount, t.actor.username])
     transactions = transactions.get_next_page() # maximum 50 results per page
 output.reverse()
-
 
 
 
@@ -64,7 +63,7 @@ creds = service_account.Credentials.from_service_account_file(
 
 # The ID and range of a sample spreadsheet.
 SAMPLE_SPREADSHEET_ID = '1GS1vMOKHn0Su2p76OWi6EYxCKCs7DKTQG-3ij3tEU58'
-RANGE = "Fundraisers!A4:E200"
+RANGE = "Fundraisers!A4:E1000"
 
 service = build('sheets', 'v4', credentials=creds)
 sheet = service.spreadsheets()
