@@ -2,4 +2,4 @@
 /bin
 /lib
 *.cfg
-/venmoFront/settings.py
+/src/venmoFront/settings.py
