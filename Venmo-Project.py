@@ -10,7 +10,7 @@ load_dotenv()
 user = os.getenv("user")
 pwd = os.getenv("pwd")
 tasa_id = os.getenv('tasa_id')
-access_token = os.getenv('access_token')
+access_token = os.getenv('tasa_access_token')
 #access_token = Client.get_access_token(username=user, password=pwd)
 
 # Initialize api client using access-token
@@ -34,8 +34,8 @@ def UTCtoDate(utc):
 
 # Returns set of transactions within date_start and date_end
 output = []
-date_start = dt.date(2021, 3, 1)
-date_end = dt.date(2021, 5, 1)
+date_start = dt.datetime.strptime(input('Start Date (MM/DD/YYYY): '), "%m/%d/%Y").date()
+date_end = dt.datetime.strptime(input('End Date (MM/DD/YYYY): '), "%m/%d/%Y").date()
 transactions = client.user.get_user_transactions(user_id = tasa_id)
 
 while (transactions.get_next_page() != None and
