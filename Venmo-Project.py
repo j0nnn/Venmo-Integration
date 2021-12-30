@@ -29,7 +29,7 @@ def compareDate(date1, date2):
 def UTCtoDate(utc):
     return dt.date.fromtimestamp(utc)
 
-# Helper function that converts input string (MM/DD/YYYY) to Date Object
+# Helper function that converts input string (MM-DD-YYYY) to Date Object
 def STRtoDate(str):
     return dt.datetime.strptime(str, '%m-%d-%Y').date()
 
