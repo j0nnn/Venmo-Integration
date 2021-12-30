@@ -29,6 +29,9 @@ def compareDate(date1, date2):
 def UTCtoDate(utc):
     return dt.date.fromtimestamp(utc)
 
+# Helper function that converts input string (MM/DD/YYYY) to Date Object
+def STRtoDate(str):
+    return dt.datetime.strptime(str, '%m-%d-%Y').date()
 
 ### VENMO DATA SEARCH ###
 
@@ -41,11 +44,11 @@ date_end = dt.datetime.now().date()
 date_start = dt.date(date_end.year, date_end.month, 1)
 try:
     if (len(sys.argv) >= 3):
-        date_start = dt.datetime.strptime(sys.argv[1], '%m-%d-%Y').date()
-        date_end = dt.datetime.strptime(sys.argv[2], '%m-%d-%Y').date()
+        date_start = STRtoDate(sys.argv[1])
+        date_end = STRtoDate(sys.argv[2])
     else:
-        date_start = dt.datetime.strptime(input('Start Date (MM/DD/YYYY): '), "%m/%d/%Y").date()
-        date_end = dt.datetime.strptime(input('End Date (MM/DD/YYYY): '), "%m/%d/%Y").date()
+        date_start = STRtoDate(input('Start Date (MM-DD-YYYY): '))
+        date_end = STRtoDate(input('End Date (MM-DD-YYYY): '))
 except ValueError:
     print("Error: Invalid Date")
 
