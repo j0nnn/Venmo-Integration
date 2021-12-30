@@ -34,9 +34,20 @@ def UTCtoDate(utc):
 
 # Returns set of transactions within date_start and date_end
 output = []
-date_start = dt.datetime.strptime(input('Start Date (MM/DD/YYYY): '), "%m/%d/%Y").date()
-date_end = dt.datetime.strptime(input('End Date (MM/DD/YYYY): '), "%m/%d/%Y").date()
 transactions = client.user.get_user_transactions(user_id = tasa_id)
+
+# Gets date from *args if valid, from user if not, defaults current month
+date_end = dt.datetime.now().date()
+date_start = dt.date(date_end.year, date_end.month, 1)
+try:
+    if (len(sys.argv) >= 3):
+        date_start = dt.datetime.strptime(sys.argv[1], '%m-%d-%Y').date()
+        date_end = dt.datetime.strptime(sys.argv[2], '%m-%d-%Y').date()
+    else:
+        date_start = dt.datetime.strptime(input('Start Date (MM/DD/YYYY): '), "%m/%d/%Y").date()
+        date_end = dt.datetime.strptime(input('End Date (MM/DD/YYYY): '), "%m/%d/%Y").date()
+except ValueError:
+    print("Error: Invalid Date")
 
 while (transactions.get_next_page() != None and
         compareDate(UTCtoDate(transactions[0].date_created), date_start) >= 0):
