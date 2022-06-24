@@ -1,0 +1,12 @@
+{% extends "./index.html" %}
+
+{% block content %}
+<div class='query_detail_view'>
+  <h1>{{ query }}</h1>
+  <ul>
+    {% for transaction in query.transaction_set.all %}
+      <li>{{ transaction }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

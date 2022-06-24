@@ -1,5 +1,0 @@
-# ignore virtualenv files
-/bin
-/lib
-*.cfg
-/src/venmoFront/settings.py

@@ -1,0 +1,32 @@
+{% load static %}
+<link rel='stylesheet' type='text/css' href="/static/queries/style.css?{% now 'U' %}"/>
+<img class="logo" src="{% static 'queries/images/logo.png' %}" alt="tasa logo">
+
+{% block content %}{% endblock %}
+
+<div class="query_list_view">
+  <h1> Queries </h1>
+  {% if queries %}
+  <ul>
+    <li>
+      <div class="query">
+        <p class="label">Date Range</p>
+        <p class="label">Keyword</p>
+      </div>
+    </li>
+    {% for query in queries %}
+    <!-- <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li> -->
+    <li><a href="{% url 'queries:detail' query.id %}">
+      <div class="query">
+        <p class="query_date">{{ query }}</p>
+        <p class="query_key">{{ query.keyword }}</p>
+      </div>
+    </a></li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>No queries exist.</p>
+  {% endif %}
+</div>
+
+<a href="{% url 'queries:create' %}"><button type="button" name="button">Create a query</button></a>

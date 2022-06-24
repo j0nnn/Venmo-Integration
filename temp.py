@@ -6,6 +6,8 @@ import datetime as dt
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
 
+# print("flag: finish importing")
+
 # Load credentials from environment variables
 load_dotenv()
 user = os.getenv("user")
@@ -16,6 +18,7 @@ access_token = os.getenv('tasa_access_token')
 
 # Initialize api client using access-token
 client = Client(access_token=access_token)
+# print("flag: logged in")
 
 # Helper function that compares two Date Objects
 def compareDate(date1, date2):
@@ -37,12 +40,16 @@ def STRtoDate(str):
 ### VENMO DATA SEARCH ###
 
 # Returns set of transactions within date_start and date_end
+# print("flag: getting transactions")
 output = []
 transactions = client.user.get_user_transactions(user_id = tasa_id)
+# print("flag: got transactions")
+
 
 # Gets date from *args, if valid, from user; if not, defaults current month
 date_end = dt.datetime.now().date()
 date_start = dt.date(date_end.year, date_end.month, 1)
+keyword = ""
 try:
     if (len(sys.argv) >= 3):
         date_start = STRtoDate(sys.argv[1])
@@ -52,36 +59,29 @@ try:
         date_end = STRtoDate(input('End Date (MM-DD-YYYY): '))
 except ValueError:
     print("Error: Invalid Date")
+keyword = input('Keyword: ').lower()
 
+# NOTE: pages are in reverse chronological order
+
+print("flag: skipping pages")
+while (transactions.get_next_page() != None and
+        compareDate(UTCtoDate(transactions[-1].date_created), date_end) > 0):
+    transactions = transactions.get_next_page() # maximum 50 results per page
+
+print("flag: starting filtering")
 while (transactions.get_next_page() != None and
         compareDate(UTCtoDate(transactions[0].date_created), date_start) >= 0):
     for t in transactions:
         t_date = UTCtoDate(t.date_created)
         if (t.target.display_name == "TASA Berkeley" and
             compareDate(t_date, date_start) >= 0 and compareDate(t_date, date_end) <= 0):
-            output.append([t_date.strftime("%m/%d/%Y"), t.note, t.actor.display_name, t.amount, t.actor.username])
+            if keyword:
+                if keyword in t.note.lower():
+                    output.append([t_date.strftime("%m/%d/%Y"), t.note, t.actor.display_name, t.amount, t.actor.username])
+            else:
+                output.append([t_date.strftime("%m/%d/%Y"), t.note, t.actor.display_name, t.amount, t.actor.username])
     transactions = transactions.get_next_page() # maximum 50 results per page
 output.reverse()
 
-
-
-### GOOGLE SHEETS WRITE ###
-
-
-SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
-SERVICE_ACCOUNT_FILE = 'credentials.json'
-
-creds = None
-creds = service_account.Credentials.from_service_account_file(
-        SERVICE_ACCOUNT_FILE, scopes=SCOPES)
-
-
-# The ID and range of a sample spreadsheet.
-SAMPLE_SPREADSHEET_ID = '1GS1vMOKHn0Su2p76OWi6EYxCKCs7DKTQG-3ij3tEU58'
-RANGE = "Fundraisers!A4:E1000"
-
-service = build('sheets', 'v4', credentials=creds)
-sheet = service.spreadsheets()
-
-request = sheet.values().update(spreadsheetId=SAMPLE_SPREADSHEET_ID, range=RANGE, valueInputOption="RAW", body={"values":output})
-request.execute()
+for transaction in output:
+    print(transaction);

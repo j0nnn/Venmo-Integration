@@ -1,0 +1,12 @@
+{% extends './index.html' %}
+
+{% block content %}
+<h1>Let's make a query!</h1>
+<form class='query_create' action="{% url 'queries:inp' %}" method="POST">
+    {% csrf_token %}
+    <input type="date" name="start_date" id="start_date" placeholder="Start Date"/>
+    <input type="date" name="end_date" id="end_date" placeholder="End Date"/>
+    <input type="text" name="keyword" id="keyword" placeholder="Keyword"/>
+    <input type="submit" value="Create">
+</form>
+{% endblock %}
