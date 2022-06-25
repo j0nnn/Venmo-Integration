@@ -4,11 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="Width=device-width, initial-scale=1.0" />
   <title>TASA Venmo Query</title>
+  {% load static %}
+  <link rel="icon" href="{% static 'queries/images/logo.png' %}" type="image/icon type">
+  <link rel='stylesheet' href="/static/queries/style.css?{% now 'U' %}"/>
 </head>
 <body>
 
-{% load static %}
-<link rel='stylesheet' href="/static/queries/style.css?{% now 'U' %}"/>
 <img class="logo" src="{% static 'queries/images/logo.png' %}" alt="tasa logo">
 
 {% block content %}{% endblock %}
