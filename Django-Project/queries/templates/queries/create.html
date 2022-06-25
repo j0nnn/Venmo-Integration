@@ -2,11 +2,32 @@
 
 {% block content %}
 <h1>Let's make a query!</h1>
-<form class='query_create' action="{% url 'queries:inp' %}" method="POST">
+<form class='query_create' id='form' action="{% url 'queries:inp' %}" method="POST">
     {% csrf_token %}
     <input type="date" name="start_date" id="start_date" placeholder="Start Date"/>
     <input type="date" name="end_date" id="end_date" placeholder="End Date"/>
     <input type="text" name="keyword" id="keyword" placeholder="Keyword"/>
-    <input type="submit" value="Create">
+    <div class="btn-container">
+      <button type="submit" class='btn' id='btn'>Submit</button>
+      <div class="checkmark-container">
+        <svg x='0px' y='0px' fill='none' class='checkmark-svg' viewBox='0 0 25 30'>
+          <path d="M2,19.2C5.9,23.6,9.4,28,9.4,28L23,2"/>
+        </svg>
+      </div>
+      <script type="text/javascript">
+        const btn = document.getElementById('btn');
+        const start = document.getElementById("start_date");
+        const end = document.getElementById("end_date");
+
+        btn.addEventListener('click', (e) => {
+          if(start.value && end.value) {
+            btn.classList.add('animating');
+            // await sleep(2000);
+          } else {
+            e.preventDefault();
+          }
+        });
+      </script>
+    </div>
 </form>
 {% endblock %}

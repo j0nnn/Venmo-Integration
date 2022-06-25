@@ -6,6 +6,9 @@ from django.urls import reverse
 from .venmo import *
 from .models import Transaction, Query
 # from django.views import generic
+# import asyncio
+# from time import sleep
+# from asgiref.sync import sync_to_async
 
 # Create your views here.
 # class IndexView(generic.ListView):
@@ -19,7 +22,8 @@ def index(request):
         'queries': queries,
     }
 
-    return render(request, template_name, context)
+    # return render(request, template_name, context)
+    return HttpResponseRedirect(reverse('queries:create'))
 
 def detail(request, query_id):
     template_name = 'queries/detail.html'
@@ -30,7 +34,7 @@ def detail(request, query_id):
         'queries': queries,
         'query': q,
     }
-    print(request)
+    # print(request)
     return render(request, template_name, context)
 
 def create(request):
@@ -42,20 +46,44 @@ def create(request):
     }
     return render(request, template_name, context)
 
+def loading(request):
+    template_name = 'queries/loading.html'
+
+    queries = Query.objects.all()
+    context = {
+    'queries': queries,
+    }
+    return render(request, template_name, context)
+
+def delete(request, query_id):
+    Query.objects.get(pk=query_id).delete()
+
+    return HttpResponseRedirect(reverse('queries:index'))
 
 def inp(request):
     start_date = request.POST['start_date']
     end_date = request.POST['end_date']
     keyword = request.POST['keyword']
-
     # print(start_date, type(start_date))
     # print(end_date, type(end_date))
     # print(keyword, type(keyword))
 
-    q = Query(dateStart=start_date, dateEnd=end_date, keyword=keyword)
+    # response = HttpResponseRedirect(reverse('queries:loading'))
+
+    # loop = asyncio.new_event_loop()
+    # loop.create_task(makeQuery(start_date, end_date, keyword))
+    # # asyncio.set_event_loop(loop)
+    # # async_result = loop.run_until_complete()
+    # # loop.close()
+
+    # return HttpResponseRedirect(reverse('queries:loading'))
+    return makeQuery(start_date, end_date, keyword)
+
+def makeQuery(start, end, key):
+    q = Query(dateStart=start, dateEnd=end, keyword=key)
     q.save()
 
-    transaction_array = transaction_search(start_date, end_date, keyword)
+    transaction_array = transaction_search(start, end, key)
     # print(transaction_array)
     for trans in transaction_array:
         # [t_date.strftime("%m/%d/%Y"), t.note, t.actor.display_name, t.amount, t.actor.username]

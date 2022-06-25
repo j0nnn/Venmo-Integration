@@ -1,27 +1,43 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="Width=device-width, initial-scale=1.0" />
+  <title>TASA Venmo Query</title>
+</head>
+<body>
+
 {% load static %}
-<link rel='stylesheet' type='text/css' href="/static/queries/style.css?{% now 'U' %}"/>
+<link rel='stylesheet' href="/static/queries/style.css?{% now 'U' %}"/>
 <img class="logo" src="{% static 'queries/images/logo.png' %}" alt="tasa logo">
 
 {% block content %}{% endblock %}
 
-<div class="query_list_view">
-  <h1> Queries </h1>
+<div class="query_list_view box">
+  <h1><a href="/queries">Queries</a></h1>
   {% if queries %}
   <ul>
     <li>
       <div class="query">
-        <p class="label">Date Range</p>
-        <p class="label">Keyword</p>
+        <p class="label query_date">Date Range</p>
+        <p class="label query_key">Keyword</p>
       </div>
     </li>
     {% for query in queries %}
     <!-- <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li> -->
-    <li><a href="{% url 'queries:detail' query.id %}">
+    <li>
       <div class="query">
-        <p class="query_date">{{ query }}</p>
-        <p class="query_key">{{ query.keyword }}</p>
+        <form action="{% url 'queries:del' query.id%}" method="POST">
+          {% csrf_token %}
+          <button class="delBtn" type="submit">X</button>
+        </form>
+
+        <a href="{% url 'queries:detail' query.id %}">
+          <div class="query_date">{{ query }}</div>
+          <div class="query_key">{{ query.keyword }}</div>
+        </a>
       </div>
-    </a></li>
+    </li>
     {% endfor %}
   </ul>
   {% else %}
@@ -29,4 +45,7 @@
   {% endif %}
 </div>
 
-<a href="{% url 'queries:create' %}"><button type="button" name="button">Create a query</button></a>
+<a href="{% url 'queries:create' %}"><button class="createBtn" type="button" name="button">Create a query</button></a>
+
+</body>
+</html>
