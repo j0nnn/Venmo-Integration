@@ -249,7 +249,12 @@ button {
 
 .query_key {
   position: absolute;
-  left: 24rem;
+  left: 23rem;
+}
+
+.query_num {
+  position: absolute;
+  right: 2rem;
 }
 
 .delBtn {
@@ -266,6 +271,62 @@ button {
   background-color: red;
 }
 
+.query_header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+
+.query_header p {
+  position: absolute;
+  right: 1rem;
+}
+
+.query_header #total {
+  position: absolute;
+  right: 6rem;
+  top: 0px;
+  font-weight: bold;
+}
+
+.transaction {
+  position: relative;
+  /* border: solid black; */
+  height: 20px;
+  display: flex;
+  flex-direction: row;
+  margin: 5px 0 5px 0;
+  /* align-items: center; */
+  /* justify-content: space-between; */
+}
+
+.trans_date {
+  position: absolute;
+  left: 0rem;
+}
+
+.trans_user {
+  position: absolute;
+  left: 5.2rem;
+  width: 9rem;
+  overflow: hidden;
+}
+
+.trans_amt {
+  position: absolute;
+  right: -0.7rem;
+}
+
+.trans_cmt {
+  position: absolute;
+  left: 15rem;
+  width: 20rem;
+  height: 20px;
+  /* border: solid black; */
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
 
 
 
@@ -275,6 +336,24 @@ button {
 
 
 
+.outBtn {
+  position: absolute;
+  bottom: 0;
+  left: 1.5rem;
+
+  background-color: orange;
+  width: 100px;
+  height: 50px;
+  border: none;
+  border-radius: 5px;
+  margin: 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.outBtn:hover {
+  background-color: red;
+}
 
 .createBtn {
     background-color: aliceblue;
@@ -352,7 +431,21 @@ button {
 
 
 
+.login_view input {
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+}
 
+.login_view button {
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.login_view button:hover {
+  background-color: #bbb;
+}
 
 .box::-webkit-scrollbar {
   display: none;
@@ -376,6 +469,12 @@ button {
 
 .query_detail_view h1 {
   margin-bottom: 2rem;
+  margin-left: 5px;
+}
+
+.query_detail_view ul {
+  margin-left: -1.7rem;
+  width: 100%;
 }
 
 .query_list_view {

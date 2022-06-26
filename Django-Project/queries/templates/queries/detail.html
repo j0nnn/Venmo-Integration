@@ -1,11 +1,24 @@
 {% extends "./index.html" %}
 
+{% load query_extras %}
+
 {% block content %}
 <div class='box query_detail_view'>
-  <h1>{{ query }}</h1>
+  <div class="query_header">
+    <h1>{{ query }}</h1>
+    <p id="total">Total: </p>
+    <p>${{ query_sum }}</p>
+  </div>
   <ul>
     {% for transaction in query.transaction_set.all %}
-      <li>{{ transaction }}</li>
+      <li>
+        <div class="transaction">
+          <div class="trans_date">{{ transaction.trans_date.month|pad }}-{{ transaction.trans_date.day|pad }}-{{ transaction.trans_date.year|mod:100 }}</div>
+          <div class="trans_user">{{ transaction.trans_name }}</div>
+          <div class="trans_cmt">"{{ transaction.trans_comment|slice:40 }}"</div>
+          <div class="trans_amt">{{ transaction.trans_amount }}</div>
+        </div>
+      </li>
     {% endfor %}
   </ul>
 </div>

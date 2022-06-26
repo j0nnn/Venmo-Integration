@@ -1,18 +1,6 @@
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="Width=device-width, initial-scale=1.0" />
-  <title>TASA Venmo Query</title>
-  {% load static %}
-  <link rel="icon" href="{% static 'queries/images/logo.png' %}" type="image/icon type">
-  <link rel='stylesheet' href="/static/queries/style.css?{% now 'U' %}"/>
-</head>
-<body>
+{% extends './base.html' %}
 
-<img class="logo" src="{% static 'queries/images/logo.png' %}" alt="tasa logo">
-
-{% block content %}{% endblock %}
+{% block queries %}
 
 <div class="query_list_view box">
   <h1><a href="/queries">Queries</a></h1>
@@ -22,6 +10,7 @@
       <div class="query">
         <p class="label query_date">Date Range</p>
         <p class="label query_key">Keyword</p>
+        <p class="label query_num">Count</p>
       </div>
     </li>
     {% for query in queries %}
@@ -36,6 +25,7 @@
         <a href="{% url 'queries:detail' query.id %}">
           <div class="query_date">{{ query }}</div>
           <div class="query_key">{{ query.keyword }}</div>
+          <div class="query_num">{{ query.transaction_set.all.count }}</div>
         </a>
       </div>
     </li>
@@ -48,9 +38,6 @@
 
 <a href="{% url 'queries:create' %}"><button class="createBtn" type="button" name="button">Create a query</button></a>
 
-<div class="footer">
-  <p class="footer-text">Powered by </p>
-  <img class="venmo" src="{% static 'queries/images/venmo.png' %}" alt="venmo logo">
-</div>
-</body>
-</html>
+<a href="{% url 'queries:logout' %}"><button class="outBtn" type="button" name="button">Log Out</button></a>
+
+{% endblock %}
