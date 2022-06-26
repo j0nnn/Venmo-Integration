@@ -3,7 +3,7 @@ Permanently Logged in to TASA Venmo Account
 
 Functionalities:
  - Set Start and End Date for searching transactions
- - Filter through entered keyboards
+ - Filter through entered keyword
  - Sum of transactions queried
  - Graphs of the total queried data
 
