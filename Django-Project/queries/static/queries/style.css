@@ -3,7 +3,7 @@
 :root {
   --box-width: 100px;
   --squish-animation-time: 350ms;
-  --progress-animation-time: 10000ms;
+  --progress-animation-time: 1000ms;
   --circle-animation-time: 300ms;
   --checkmark-animation-time: 300ms;
   --font-size: calc(1 /5 * var(--btn-height));
