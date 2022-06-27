@@ -26,14 +26,15 @@ def login(request):
 
 def cred(request):
     global login_flag
-    if not login_flag:
-        return HttpResponseRedirect(reverse('queries:login'))
 
     login_pass = os.getenv("login_pass")
-    if request.POST['pwd'] == login_pass:
-        login_flag = True
-        return HttpResponseRedirect(reverse('queries:index'))
-    else:
+    try:
+        if request.POST['pwd'] == login_pass:
+            login_flag = True
+            return HttpResponseRedirect(reverse('queries:index'))
+        else:
+            return HttpResponseRedirect(reverse('queries:login'))
+    except KeyError:
         return HttpResponseRedirect(reverse('queries:login'))
 
 def logout(request):

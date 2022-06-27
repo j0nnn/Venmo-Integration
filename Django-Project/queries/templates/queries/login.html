@@ -3,7 +3,7 @@
 {% block content %}
 <div class='box login_view'>
   <h1>Login Here...</h1>
-  <form action="{% url 'queries:cred' %}" method="post">
+  <form action="{% url 'queries:cred' %}" method="POST">
     {% csrf_token %}
     <input type="password" name="pwd" value="" placeholder="Password" autofocus>
     <button type="submit" name="button">Login</button>
