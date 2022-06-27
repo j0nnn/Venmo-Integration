@@ -26,6 +26,8 @@ def login(request):
 
 def cred(request):
     global login_flag
+    if not login_flag:
+        return HttpResponseRedirect(reverse('queries:login'))
 
     login_pass = os.getenv("login_pass")
     if request.POST['pwd'] == login_pass:
@@ -98,6 +100,10 @@ def delete(request, query_id):
     return HttpResponseRedirect(reverse('queries:index'))
 
 def inp(request):
+    global login_flag
+    if not login_flag:
+        return HttpResponseRedirect(reverse('queries:login'))
+
     start_date = request.POST['start_date']
     end_date = request.POST['end_date']
     keyword = request.POST['keyword']
