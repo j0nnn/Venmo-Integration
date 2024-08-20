@@ -7,3 +7,11 @@ The credentials.json file contains information about the Google Sheets API. If y
 
 Installing required packages (stored in ./requirements.txt):
 pip install -r requirements.txt
+
+Instructions to run are contained in the Makefile (2 main commands):
+```
+make venv
+make run
+```
+
+NOTE: as of 2024 (maybe earlier), Venmo Developer APIs were retired, so unfortunately, the tool can no longer be used.
